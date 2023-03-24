@@ -18,7 +18,7 @@ section img{
 }
 section{
   width: var(--width);
-  background: #36454F;
+  background: white;
   padding: 20px;
 }
 section h3{
@@ -44,3 +44,11 @@ section a{
   font-weight: 700;
   font-size: calc(var(--width)/23);
 }
+img {
+  width: 500px;
+  height: 300px;
+}
+.col-md-4.float-right {
+  float: right;
+}
+

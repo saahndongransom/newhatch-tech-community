@@ -1,50 +1,160 @@
 {% extends "nblog/base.html" %}
 {% load static %}
+
 {% block content %}
+<link rel="stylesheet"  href="{% static 'css/page.css' %}">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700" rel="stylesheet">
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=YOUR-PUBLISHER-ID"></script>
+<!-- Add this to the <head> section of your HTML file -->
+  <script type="text/javascript" src="//platform-api.sharethis.com/js/sharethis.js#property=[YOUR-SHARETHIS-PROPERTY-ID]&product=inline-share-buttons"></script>
+
+
 <style>
+
+.body {
+    font-family: 'Open Sans', sans-serif;
+  }
+   
+  .single_content:hover .card-body {
+    background-color: #f7f7f7;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .single_content {
+    border: 1px solid #ddd;
+  }
   .layout-container {
-  display: grid;
-  grid-template-columns: auto 15%;
-  /*grid-template-columns: auto 300px;*/
-  grid-column-gap: 10px;
-  background-color: darkgrey;
+    display: grid;
+    grid-template-columns: auto 20%;
+    grid-column-gap: 20px;
+    background-color: #f7f7f7;
+  }
+       
+  .layout-container {
+    display: grid;
+    grid-template-columns: auto 15%;
+    /*grid-template-columns: auto 300px;*/
+    grid-column-gap: 10px;
+    background-color: darkgrey;
+  }
+
+  .card-body {
+    position: relative;
+  }
+
+  .card-body a.btn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
+  .content-container {
+  background-image: url("https://foundation.blacksintechnology.net/wp-content/uploads/2020/08/42700883892478.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+body {
+  background-image: url("https://images.unsplash.com/photo-1516617442634-75371039cb3a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 </style>
 
 <header class="masthead">
   <div class="overlay"></div>
   <div class="container">
     <div class="row">
-      <div class=" col-md-8 col-md-15 mx-auto">
-        <div class="site-heading1">
-        </div>
+      <div class="col-md-8 col-md-15 mx-auto">
+        <div class="site-heading1"></div>
       </div>
     </div>
   </div>
 </header>
 <div class="container">
   <div class="row">
-    <!-- Blog Entries Column -->
-    <div class="col-md-8 mt-3 left">
-      {% for post in post_list %}
-      <div class="card mb-4">
+    <div class="col-md-12">
+    
+    </div>
+  </div>
+  <div class="row">
+    {% for post in posts %}
+    <div class="col-md-4 mt-3">
+      <div class="card mb-4 single_content h-100">
         <div class="card-body">
-          <h2 class="card-title">{{ post.title }}</h2>
+          {% if post.image %}
+          <a href="{% url 'post_detail' post.pk %}">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid mb-3" style="width: 100%;">
+          </a>
+          {% elif post.image_url %}
+          <a href="{% url 'post_detail' post.pk %}">
+            <img src="{{ post.image_url }}" alt="{{ post.title }}" class="img-fluid mb-3" style="width: 100%;">
+          </a>
+          {% endif %}
+          <h4 class="card-title">{{ post.title }}</h4>
           <p class="card-text text-muted h6">{{ post.author }} | {{ post.created_on}} </p>
           <p class="card-text">{{post.content|slice:":300"|safe}}</p>
-          <a href="{% url 'post_detail' post.slug  %}" class="btn btn-primary">Read More &rarr;</a>
-        </div>
+          <a  href="{% url 'post_detail' post.pk  %}" class="btn btn-primary">Read More &rarr;</a>
+          
+          </div>
+          </div>
+          </div>
+          {% endfor %}
+          </div>
+          </div>
+          
+<br>
 
+ <!-- 
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      {% if page_obj.has_previous %}
+      <nav class="pagination-nav">
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link">
+          <span class="pagination-icon">&laquo;</span>
+          <h2 class="pagination-label">Previous </h2>
+        </a>
+      </nav>
+      {% endif %}
+
+      {% if page_obj.has_next %}
+      <nav class="pagination-nav">
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-link">
+          <h2 class="pagination-label">Next </h2>
+          <span class="pagination-icon">&raquo;</span>
+        </a>
+        
+      </nav>
+     
+    
+      {% endif %}-->
+      <div class="container">
+        <div class="card">
+          <div class="card-body">
+            {% if page_obj.has_previous %}
+            <nav class="pagination-nav">
+              <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link">
+                <span class="pagination-icon bi bi-chevron-left"></span>
+                <span class="pagination-label">Previous</span>
+              </a>
+            </nav>
+            {% endif %}
+      
+            {% if page_obj.has_next %}
+            <nav class="pagination-nav">
+              <a href="?page={{ page_obj.next_page_number }}" class="pagination-link">
+                <span class="pagination-label">Next</span>
+                <span class="pagination-icon bi bi-chevron-right"></span>
+              </a>
+            </nav>
+            {% endif %}
+          </div>
+        </div>
       </div>
-      {% endfor %}
-   <br>
-   
+      
+     
     </div>
-    
-    {% block sidebar %} 
-    {% include 'nblog/sidebar.html' %} 
-    
-    {% endblock sidebar %}
   </div>
 </div>
-{%endblock%}
+<br>
+
+{% endblock content %}
